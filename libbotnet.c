@@ -2,63 +2,82 @@
 #include <stdlib.h>
 #include <windows.h>
 
-struct WinVerInfo {
-    int PlatformID;
-    int MajorVersion;
-    int MinorVersion;
-};
+typedef struct {
+    char OSVersion[32];
+    char hostname[16];
+    int  memory;
+    long int  hddSize;
+} OSInfo;
 
-OSVERSIONINFOEX* getOSVerInfo() {
+int getOSVersionName(char* buffer) {
     OSVERSIONINFOEX osvi;
     ZeroMemory(&osvi, sizeof(OSVERSIONINFOEX));
     osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
-
     GetVersionEx((OSVERSIONINFO*) &osvi);
 
-    return &osvi;
-}
-
-char* getOSInfoString(OSVERSIONINFOEX* OSVerInfo) {
-    char* str;
-
-    switch(OSVerInfo->dwMajorVersion) {
+    switch(osvi.dwMajorVersion) {
         case 6:
-            switch(OSVerInfo->dwMinorVersion) {
+            switch(osvi.dwMinorVersion) {
                 case 0:
-                    if(OSVerInfo->wProductType == VER_NT_WORKSTATION)
-                        str = "Windows Vista";
-                    if(OSVerInfo->wProductType != VER_NT_WORKSTATION)
-                        str = "Windows Server 2008";
+                    if(osvi.wProductType == VER_NT_WORKSTATION)
+                        strcpy(buffer, "Windows Vista");
+                    if(osvi.wProductType != VER_NT_WORKSTATION)
+                        strcpy(buffer, "Windows Server 2008");
                     break;
 
                 case 1:
-                    if(OSVerInfo->wProductType == VER_NT_WORKSTATION)
-                        str = "Windows 7";
-                    if(OSVerInfo->wProductType != VER_NT_WORKSTATION)
-                        str = "Windows Server 2008 R2";
+                    if(osvi.wProductType == VER_NT_WORKSTATION)
+                        strcpy(buffer, "Windows 7");
+                    if(osvi.wProductType != VER_NT_WORKSTATION)
+                        strcpy(buffer, "Windows Server 2008 R2");
                     break;
             }
             break;
         case 5:
-            switch(OSVerInfo->dwMinorVersion) {
+            switch(osvi.dwMinorVersion) {
                 case 0:
-                    str = "Windows 2000";
+                    strcpy(buffer, "Windows 2000");
                     break;
                 case 1:
-                    str = "Windows XP";
+                    strcpy(buffer, "Windows XP");
+                    break;
                 case 2:
                     break;
             }
             break;
     }
+    return 0;
+}
 
-    return str;
+int getRAMSize() {
+    MEMORYSTATUSEX statex;
+    statex.dwLength = sizeof( statex );
+    GlobalMemoryStatusEx(&statex);
+
+    return statex.ullTotalPhys;
+}
+
+int getHostname(char* buffer) {
+    WSADATA wsaData;
+    WSAStartup(MAKEWORD(2, 2), &wsaData);
+    gethostname(buffer, sizeof(*buffer));
+    WSACleanup();
+
+    return 0;
+}
+
+int getOSInfo(OSInfo* osi) {
+    getOSVersionName(osi->OSVersion);
+    getHostname(osi->hostname);
+    osi->memory = getRAMSize();
+    return 0;
 }
 
 int main(int argc, char* argv[]) {
-    OSVERSIONINFOEX* OSVerInfo = getOSVerInfo();
-    
-    printf("%s\n", getOSInfoString(OSVerInfo));
+    OSInfo osi;
+    getOSInfo(&osi);
+
+    printf("OS: %s\nHostname: %s\n", osi.OSVersion, osi.hostname);
 
     return 0;
 }
