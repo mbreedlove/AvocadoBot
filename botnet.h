@@ -4,7 +4,7 @@
 #include <iostream>
 
 // Botnet specific includes
-#include "osinfo.h"
+#include "OSInfo.h"
 #include "IRCClient.h"
 
 #endif

@@ -1,8 +1,8 @@
 #ifndef IRCCLIENT_H
 #define IRCCLIENT_H
 
-#include <iostream>
 #include <windows.h>
+#include <iostream>
 #include <string>
 #include "IRCSocket.h"
 

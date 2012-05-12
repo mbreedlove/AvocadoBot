@@ -8,12 +8,16 @@ IRCClient::IRCClient(std::string server, int port, std::string username){
     
 }
 
+IRCClient::~IRCClient() {
+    delete ircSoc;
+}
+
 bool IRCClient::connect() {
     return ircSoc->connectToServer(this->server, this->port);
 }
 
-void IRCClient::send(std::string) {
-    ircSoc->sendData(string);
+void IRCClient::send(std::string data) {
+    ircSoc->sendData(data);
 }
 std::string IRCClient::recv() {
     char buf[128];
