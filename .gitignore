@@ -9,6 +9,6 @@
 *.so
 
 # Executables
-#*.exe
+*.exe
 *.out
 

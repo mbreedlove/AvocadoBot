@@ -4,7 +4,7 @@
 
 typedef struct {
     char OSVersion[32];
-    char hostname[16];
+    char hostname[32];
     int  memory;
     long int  hddSize;
 } OSInfo;
@@ -60,9 +60,8 @@ int getRAMSize() {
 int getHostname(char* buffer) {
     WSADATA wsaData;
     WSAStartup(MAKEWORD(2, 2), &wsaData);
-    gethostname(buffer, sizeof(*buffer));
+    gethostname(buffer, 32);
     WSACleanup();
-
     return 0;
 }
 
@@ -76,8 +75,7 @@ int getOSInfo(OSInfo* osi) {
 int main(int argc, char* argv[]) {
     OSInfo osi;
     getOSInfo(&osi);
-
-    printf("OS: %s\nHostname: %s\n", osi.OSVersion, osi.hostname);
-
+   
+    printf("OS: %s\nHostname: %s\nMemory: %d MB\n", osi.OSVersion, osi.hostname, (int)(osi.memory / 1024 / 1024));
     return 0;
 }
