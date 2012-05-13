@@ -5,10 +5,10 @@ FILES=OSInfo.cpp IRCSocket.cpp IRCClient.cpp botnet.cpp
 
 all: botnet
 
-botnet:
+botnet.exe:
 	$(CC) $(CFLAGS) $(FILES) -o botnet.exe $(LIBS)
 
-osinfo.o:
+OSInfo.o:
 	$(CC) $(CFLAGS) -c OSInfo.cpp -o OSInfo.o $(LIBS)
 	
 IRCSocket.o:
