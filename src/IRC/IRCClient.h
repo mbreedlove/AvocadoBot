@@ -16,7 +16,11 @@ public:
 	IRCClient(std::string, int, std::string);
 	virtual ~IRCClient();
 
+	void sendRaw(std::string);
+	std::string readRaw();
+
 	void connect();
+	void disconnect();
 
 	void joinChannel(std::string);
 	void partChannel(std::string);

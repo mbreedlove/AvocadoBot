@@ -16,27 +16,56 @@ IRCClient::IRCClient(std::string server, int port, std::string name) {
 }
 
 IRCClient::~IRCClient() {
-	// TODO Auto-generated destructor stub
+	delete soc;
+}
+
+void IRCClient::sendRaw(std::string data) {
+	soc->sendData(data + "\r\n");
+}
+
+std::string IRCClient::readRaw() {
+	std::string data = soc->recvData();
+	int stop = data.find_first_of(" ");
+	if(stop != std::string::npos) {
+		if(data.substr(0, stop).compare("PING") == 0) {
+			pong();
+			return readRaw();
+		}
+		// Handle Server messages here
+	}
+	return data;
 }
 
 void IRCClient::connect() {
-	soc->open(this->server, this->port);
+	std::cout << "Connecting to: " << this->server << ":" << this->port << std::endl;
+	bool connected = soc->open(this->server, this->port);
+	if(!connected) {
+		std::cout << "IRCClient: Could not connect." << std::endl;
+		return;
+	}
+	sendRaw("NICK " "<nick>");
+	sendRaw("USER " "<username> " "localhost localhost " "<real name>");
+}
+
+void IRCClient::disconnect() {
+	sendRaw("QUIT");
+	soc->close();
 }
 
 void IRCClient::joinChannel(std::string channel) {
-	soc->sendData("JOIN " + channel);
+	sendRaw("JOIN " + channel);
 }
 
 void IRCClient::partChannel(std::string channel) {
-	soc->sendData("PART " + channel);
+	sendRaw("PART " + channel);
 }
 
 void IRCClient::sendMessage(std::string target, std::string message) {
-	soc->sendData("PRIVMSG " + target + " " + message);
+	sendRaw("PRIVMSG " + target + " " + message);
 }
 
 void IRCClient::pong() {
-	soc->sendData("PONG " + this->server);
+	sendRaw("PONG " + this->server);
 }
 
 void IRCClient::setServer(std::string server) {
