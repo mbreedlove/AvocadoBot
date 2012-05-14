@@ -1,25 +1,25 @@
-#ifndef IRCSOCKET_H
-#define IRCSOCKET_H
+#ifndef SOCKET_H_
+#define SOCKET_H_
 
 #include <iostream>
 #include <windows.h>
 #include <string>
 
-class IRCSocket {
+class Socket {
 protected:
     WSADATA wsaData;
     SOCKET soc;
     sockaddr_in myAddr;
     
 public:
-	IRCSocket();
-	~IRCSocket();
+	Socket();
+	virtual ~Socket();
     
-    bool connectToServer(std::string, int);
+    bool open(std::string, int);
+    void close();
     
     void sendData(std::string);
-    void recvData(char*, int);
-    void close();
+    std::string recvData();
 };
 
-#endif
+#endif /* SOCKET_H_*/

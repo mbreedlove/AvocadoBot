@@ -1,11 +1,10 @@
-#ifndef OSINFO_H
-#define OSINFO_H
+#ifndef OSINFO_H_
+#define OSINFO_H_
 
 #include <windows.h>
 #include <string>
 
 class OSInfo {
-
 protected:
 	std::string getOSVersionName();
 	std::string getHostname();
@@ -19,7 +18,7 @@ public:
     int cpuCount;
     
 	OSInfo();
-	~OSInfo();
+	virtual ~OSInfo();
 };
 
-#endif
+#endif /* OSINFO_H_*/
