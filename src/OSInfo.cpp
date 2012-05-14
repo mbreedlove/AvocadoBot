@@ -7,6 +7,10 @@ OSInfo::OSInfo() {
 	this->cpuCount = OSInfo::getCPUCount();
 }
 
+OSInfo::~OSInfo() {
+
+}
+
 // Not entirely complete, matches most common found versions
 std::string OSInfo::getOSVersionName() {
     OSVERSIONINFOEX osvi;

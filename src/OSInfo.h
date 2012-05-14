@@ -5,12 +5,6 @@
 #include <string>
 
 class OSInfo {
-protected:
-	std::string getOSVersionName();
-	std::string getHostname();
-	std::string getCPUArch();
-	int getCPUCount();
-	
 public:
     std::string OSVersionName;
     std::string hostname;
@@ -19,6 +13,13 @@ public:
     
 	OSInfo();
 	virtual ~OSInfo();
+
+protected:
+	std::string getOSVersionName();
+	std::string getHostname();
+	std::string getCPUArch();
+	int getCPUCount();
+
 };
 
 #endif /* OSINFO_H_*/

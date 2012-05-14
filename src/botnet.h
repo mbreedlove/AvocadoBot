@@ -5,6 +5,5 @@
 
 // Botnet specific includes
 #include "OSInfo.h"
-#include "IRCManager.h"
 
-#endif /* BOTNET_H_
+#endif /* BOTNET_H_*/
