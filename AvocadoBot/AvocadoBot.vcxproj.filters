@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\IRC">
+      <UniqueIdentifier>{2ed3fefb-a7b6-4420-b850-a370e7958490}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\IRC">
+      <UniqueIdentifier>{6276ef88-31e9-4bdc-8bd5-e37de20237c5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\botnet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OSInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IRC\IRCClient.cpp">
+      <Filter>Source Files\IRC</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IRC\IRCManager.cpp">
+      <Filter>Source Files\IRC</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IRC\Socket.cpp">
+      <Filter>Source Files\IRC</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\botnet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Configs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OSInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IRC\IRCClient.h">
+      <Filter>Header Files\IRC</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IRC\IRCManager.h">
+      <Filter>Header Files\IRC</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IRC\Socket.h">
+      <Filter>Header Files\IRC</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
