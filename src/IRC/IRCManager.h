@@ -18,7 +18,6 @@ public:
 	IRCManager();
 	virtual ~IRCManager();
 
-	DWORD WINAPI myThread(LPVOID);
 };
 
 #endif /* IRCMANAGER_H_ */

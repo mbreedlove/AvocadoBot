@@ -21,16 +21,6 @@ IRCManager::IRCManager() {
 //        0,                      /* use default creation flags.    */
 //        &threadID);				  /* returns the thread identifier. */
 
-//	unsigned threadID;
-//    _beginthreadex(
-//    		NULL,
-//    		0,
-//    		IRCManager::threadEntryPoint,
-//    		NULL,
-//    		0,
-//    		&threadID
-//    	);
-
 
 	Sleep(5000);
 	ircc->joinChannel(_CONFIG_IRC_CHANNEL);
@@ -38,16 +28,9 @@ IRCManager::IRCManager() {
 	ircc->sendMessage("#tentrabot", "testmessage");
 	Sleep(3000);
 	ircc->disconnect();
-	CloseHandle(hThread);
+
 }
 
 IRCManager::~IRCManager() {
 	// TODO Auto-generated destructor stub
-}
-
-
-DWORD WINAPI IRCManager::myThread(LPVOID lpParam) {
-	std::cout << "Thread!" << std::endl;
-
-	return 0;
 }
