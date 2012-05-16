@@ -7,5 +7,6 @@ int main(int argc, char *argv[], char *envp[]) {
 	ircm->start();
 	Sleep(15000);
 	ircm->stop();
+
 	return 0;
 }

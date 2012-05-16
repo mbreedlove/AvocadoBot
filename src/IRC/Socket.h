@@ -10,6 +10,7 @@ protected:
     WSADATA wsaData;
     SOCKET soc;
     sockaddr_in myAddr;
+    bool connected;
     
 public:
 	Socket();
@@ -20,6 +21,8 @@ public:
     
     void sendData(std::string);
     std::string recvData();
+
+    bool isConnected();
 };
 
 #endif /* SOCKET_H_*/

@@ -15,12 +15,6 @@ IRCManager::~IRCManager() {
 	delete ircc;
 }
 
-HANDLE IRCManager::startThread() {
-	HANDLE hThread;
-	hThread = (HANDLE)_beginthread(monitor, 0, NULL);
-	return hThread;
-}
-
 void IRCManager::start() {
 	isConnected = ircc->connect();
 	if(!isConnected) {
@@ -40,6 +34,12 @@ void IRCManager::start() {
 void IRCManager::stop() {
 	CloseHandle(hThread);
 	ircc->disconnect();
+}
+
+HANDLE IRCManager::startThread() {
+	HANDLE hThread;
+	hThread = (HANDLE)_beginthread(monitor, 0, NULL);
+	return hThread;
 }
 
 static void monitor(void* i) {

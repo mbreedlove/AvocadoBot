@@ -24,8 +24,8 @@ void IRCClient::sendRaw(std::string data) {
 }
 
 std::string IRCClient::readRaw() {
-	std::string data;
-	data = soc->recvData();
+	std::string data ("Hello!");
+	std::cout << "Socked connected: " << soc->isConnected() << std::endl;
 
 	unsigned int stop = data.find_first_of(" ");
 	if(stop != std::string::npos) {

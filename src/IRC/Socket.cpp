@@ -12,6 +12,7 @@ Socket::Socket() {
         std::cerr << "Socket Initialization: Error creating socket\n";
         WSACleanup();
     }
+    connected = false;
 }
 
 Socket::~Socket() {
@@ -33,6 +34,8 @@ bool Socket::open(std::string server, int port) {
         WSACleanup();
         return FALSE;
     }
+
+    connected = true;
     return TRUE;
 }
 
@@ -58,7 +61,11 @@ void Socket::sendData(std::string data) {
 std::string Socket::recvData() {
 	char buf[256];
 
-	// This fails
-    recv(soc, buf, sizeof(buf), 0);
+	recv(soc, buf, sizeof(buf), 0);
     return std::string(buf);
+}
+
+
+bool Socket::isConnected() {
+	return connected;
 }
