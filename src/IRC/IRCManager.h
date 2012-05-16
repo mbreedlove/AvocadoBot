@@ -13,11 +13,22 @@
 #include "IRCClient.h"
 #include "../Configs.h"
 
+static void monitor(void*);
+
 class IRCManager {
 public:
 	IRCManager();
 	virtual ~IRCManager();
 
+	void start();
+	void stop();
+
+protected:
+	IRCClient* ircc;
+	HANDLE hThread;
+	bool isConnected;
+
+	HANDLE startThread();
 };
 
 #endif /* IRCMANAGER_H_ */

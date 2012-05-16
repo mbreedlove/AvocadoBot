@@ -2,6 +2,7 @@
 #define BOTNET_H_
 
 #include <iostream>
+#pragma comment(lib, "Ws2_32.lib")
 
 // Botnet specific includes
 #include "OSInfo.h"

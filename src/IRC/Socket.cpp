@@ -57,7 +57,8 @@ void Socket::sendData(std::string data) {
  */
 std::string Socket::recvData() {
 	char buf[256];
-    recv(soc, buf, sizeof(buf), 0);
 
+	// This fails
+    recv(soc, buf, sizeof(buf), 0);
     return std::string(buf);
 }

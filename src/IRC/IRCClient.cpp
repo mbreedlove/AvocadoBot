@@ -24,8 +24,10 @@ void IRCClient::sendRaw(std::string data) {
 }
 
 std::string IRCClient::readRaw() {
-	std::string data = soc->recvData();
-	int stop = data.find_first_of(" ");
+	std::string data;
+	data = soc->recvData();
+
+	unsigned int stop = data.find_first_of(" ");
 	if(stop != std::string::npos) {
 		if(data.substr(0, stop).compare("PING") == 0) {
 			pong();
@@ -36,15 +38,16 @@ std::string IRCClient::readRaw() {
 	return data;
 }
 
-void IRCClient::connect() {
+bool IRCClient::connect() {
 	std::cout << "Connecting to: " << this->server << ":" << this->port << std::endl;
 	bool connected = soc->open(this->server, this->port);
 	if(!connected) {
 		std::cout << "IRCClient: Could not connect." << std::endl;
-		return;
+		return false;
 	}
 	sendRaw("NICK " "<nick>");
 	sendRaw("USER " "<username> " "localhost localhost " "<real name>");
+	return true;
 }
 
 void IRCClient::disconnect() {

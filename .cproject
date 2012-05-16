@@ -40,7 +40,6 @@
 								</option>
 								<option id="gnu.cpp.link.option.libs.724584471" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="ws2_32"/>
-									<listOptionValue builtIn="false" value="thread"/>
 								</option>
 								<option id="gnu.cpp.link.option.flags.1867489879" name="Linker flags" superClass="gnu.cpp.link.option.flags" value="-static" valueType="string"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1194090198" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">

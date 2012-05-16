@@ -19,7 +19,7 @@ public:
 	void sendRaw(std::string);
 	std::string readRaw();
 
-	void connect();
+	bool connect();
 	void disconnect();
 
 	void joinChannel(std::string);

@@ -2,8 +2,10 @@
 
 using namespace std;
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[], char *envp[]) {
 	IRCManager* ircm = new IRCManager();
-
-    return 0;
+	ircm->start();
+	Sleep(15000);
+	ircm->stop();
+	return 0;
 }

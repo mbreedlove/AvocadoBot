@@ -8,29 +8,46 @@
 #include "IRCManager.h"
 
 IRCManager::IRCManager() {
-	IRCClient* ircc = new IRCClient(_CONFIG_IRC_SERVER, _CONFIG_IRC_PORT, "bot");
-
-	ircc->connect();
-
-//	DWORD threadID;
-//    HANDLE hThread = CreateThread(
-//        0,                   /* default security attributes.   */
-//        0,                      /* use default stack size.        */
-//        &IRCManager::myThread,				/* thread function name.          */
-//        &ircc,                   /* argument to thread function.   */
-//        0,                      /* use default creation flags.    */
-//        &threadID);				  /* returns the thread identifier. */
-
-
-	Sleep(5000);
-	ircc->joinChannel(_CONFIG_IRC_CHANNEL);
-	Sleep(3000);
-	ircc->sendMessage("#tentrabot", "testmessage");
-	Sleep(3000);
-	ircc->disconnect();
-
+	ircc = new IRCClient(_CONFIG_IRC_SERVER, _CONFIG_IRC_PORT, "bot");
 }
 
 IRCManager::~IRCManager() {
-	// TODO Auto-generated destructor stub
+	delete ircc;
+}
+
+HANDLE IRCManager::startThread() {
+	HANDLE hThread;
+	hThread = (HANDLE)_beginthread(monitor, 0, NULL);
+	return hThread;
+}
+
+void IRCManager::start() {
+	isConnected = ircc->connect();
+	if(!isConnected) {
+		return;
+	}
+	hThread = this->startThread();
+	
+	// Simulate connection
+	Sleep(3000);
+
+	ircc->joinChannel(_CONFIG_IRC_CHANNEL);
+	
+	// Test connection
+	ircc->sendMessage("#tentrabot", "testmessage");
+}
+
+void IRCManager::stop() {
+	CloseHandle(hThread);
+	ircc->disconnect();
+}
+
+static void monitor(void* i) {
+	IRCClient* ircc = (IRCClient*)i;
+	Sleep(2000);
+	while(true) {
+		std::string data = ircc->readRaw();
+		std::cout << data << std::endl;
+		Sleep(100);
+	}
 }
