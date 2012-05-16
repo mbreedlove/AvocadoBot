@@ -1,14 +1,9 @@
+bin/*
+AvocadoBot/int*
 
 # Visual Studio
 AvocadoBot.sdf
 AvocadoBot.suo
 AvocadoBot.opensdf
 AvocadoBot/AvocadoBot.vcxproj.user
-AvocadoBot/Debug*
-AvocadoBot/Release*
-ipch/*
-*.ilk
-*.pdb
 
-*.o
-*.exe
