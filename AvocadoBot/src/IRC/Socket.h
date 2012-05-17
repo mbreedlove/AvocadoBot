@@ -2,8 +2,8 @@
 #define SOCKET_H_
 
 #include <iostream>
-#include <windows.h>
 #include <string>
+#include "Windows.h"
 
 class Socket {
 protected:

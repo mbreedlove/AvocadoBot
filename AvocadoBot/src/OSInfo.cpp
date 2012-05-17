@@ -85,3 +85,13 @@ int OSInfo::getCPUCount() {
     return siSysInfo.dwNumberOfProcessors;
 }
 
+std::string OSInfo::sysInfoStr() {
+	std::ostringstream ss;
+
+	ss << "Hostname : " << this->hostname << std::endl;
+	ss << "OS Ver   : " << this->OSVersionName << std::endl;
+	ss << "CPU Cores: " << this->cpuCount << std::endl;
+	ss << "CPU Arch : " << this->cpuArch << std::endl;
+
+	return ss.str();
+}

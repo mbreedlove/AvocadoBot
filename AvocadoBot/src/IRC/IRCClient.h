@@ -8,6 +8,10 @@
 #ifndef IRCCLIENT_H_
 #define IRCCLIENT_H_
 
+#include <Windows.h>
+#include <string>
+#include <sstream>
+
 #include "Socket.h"
 
 class IRCClient {

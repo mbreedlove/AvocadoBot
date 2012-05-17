@@ -8,7 +8,7 @@
 #ifndef IRCMANAGER_H_
 #define IRCMANAGER_H_
 
-#include <iostream>
+#include <Windows.h>
 #include <process.h>
 #include "IRCClient.h"
 #include "../Configs.h"
@@ -22,9 +22,9 @@ public:
 
 	void start();
 	void stop();
+	IRCClient* ircc;
 
 protected:
-	IRCClient* ircc;
 	HANDLE hThread;
 	bool isConnected;
 

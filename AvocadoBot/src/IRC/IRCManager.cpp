@@ -38,15 +38,16 @@ void IRCManager::stop() {
 
 HANDLE IRCManager::startThread() {
 	HANDLE hThread;
-	hThread = (HANDLE)_beginthread(monitor, 0, NULL);
+	hThread = (HANDLE)_beginthread(monitor, 0, this);
 	return hThread;
 }
 
 static void monitor(void* i) {
-	IRCClient* ircc = (IRCClient*)i;
+	IRCManager* ircm = (IRCManager*)i;
 	Sleep(2000);
 	while(true) {
-		std::string data = ircc->readRaw();
+		std::string data;
+		data = ircm->ircc->readRaw();
 		std::cout << data << std::endl;
 		Sleep(100);
 	}

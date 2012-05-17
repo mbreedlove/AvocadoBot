@@ -1,8 +1,8 @@
 #ifndef OSINFO_H_
 #define OSINFO_H_
 
-#include <windows.h>
-#include <string>
+#include <sstream>
+#include <Windows.h>
 
 class OSInfo {
 public:
@@ -10,6 +10,8 @@ public:
     std::string hostname;
     std::string cpuArch;
     int cpuCount;
+
+	std::string sysInfoStr();
     
 	OSInfo();
 	virtual ~OSInfo();
