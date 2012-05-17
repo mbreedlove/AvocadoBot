@@ -8,11 +8,12 @@
 #ifndef CONFIGS_H_
 #define CONFIGS_H_
 
-// Comment out to disable logging
-#define _LOG
+#include <string>
 
-#define _CONFIG_IRC_SERVER	"127.0.0.1"
-#define _CONFIG_IRC_PORT	6667
-#define _CONFIG_IRC_CHANNEL	"#tentrabot"
+const std::string CONFIG_IRC_SERVER	 	= "127.0.0.1";
+const int CONFIG_IRC_PORT				= 6667;
+const std::string CONFIG_IRC_CHANNEL	= "#AvocadoBot";
+const std::string CONFIG_IRC_NICK		= "BotNick";
+const std::string CONFIG_IRC_USER		= "BotUser";
 
 #endif /* CONFIGS_H_ */

@@ -62,6 +62,12 @@ std::string Socket::recvData() {
 	char buf[256];
 
 	recv(soc, buf, sizeof(buf), 0);
+
+	// Is connection broken?
+	if(buf[0] == 0x5b) {
+		connected = false;
+		return std::string();
+	}
     return std::string(buf);
 }
 

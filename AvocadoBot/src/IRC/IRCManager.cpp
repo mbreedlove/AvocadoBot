@@ -8,30 +8,34 @@
 #include "IRCManager.h"
 
 IRCManager::IRCManager() {
-	ircc = new IRCClient(_CONFIG_IRC_SERVER, _CONFIG_IRC_PORT, "bot");
+	ircc = new IRCClient(CONFIG_IRC_SERVER, CONFIG_IRC_PORT);
+	connected = false;
+	hThread = 0;
 }
 
 IRCManager::~IRCManager() {
 	delete ircc;
 }
 
+bool IRCManager::isConnected() {
+	return connected;
+}
+
 void IRCManager::start() {
-	isConnected = ircc->connect();
-	if(!isConnected) {
+	connected = ircc->connect();
+	if(!connected) {
 		return;
 	}
 	hThread = this->startThread();
 	
-	// Simulate connection
-	Sleep(3000);
-
-	ircc->joinChannel(_CONFIG_IRC_CHANNEL);
+	ircc->joinChannel(CONFIG_IRC_CHANNEL);
 	
 	// Test connection
 	ircc->sendMessage("#tentrabot", "testmessage");
 }
 
 void IRCManager::stop() {
+	connected = false;
 	CloseHandle(hThread);
 	ircc->disconnect();
 }
@@ -42,13 +46,16 @@ HANDLE IRCManager::startThread() {
 	return hThread;
 }
 
-static void monitor(void* i) {
-	IRCManager* ircm = (IRCManager*)i;
-	Sleep(2000);
+void monitor(void* i) {
+	IRCClient* ircc = (IRCClient*)((IRCManager*)i)->ircc;
 	while(true) {
 		std::string data;
-		data = ircm->ircc->readRaw();
-		std::cout << data << std::endl;
-		Sleep(100);
+		data = ircc->readRaw();
+		if(data.empty()) {
+			((IRCManager*)i)->stop();
+			return;
+		}
+		std::cout << data;
+		fflush(stdout);
 	}
 }

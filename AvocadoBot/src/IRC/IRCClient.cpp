@@ -7,10 +7,9 @@
 
 #include "IRCClient.h"
 
-IRCClient::IRCClient(std::string server, int port, std::string name) {
+IRCClient::IRCClient(std::string server, int port) {
 	this->server = server;
 	this->port = port;
-	this->name = name;
 
 	soc = new Socket();
 }
@@ -25,14 +24,21 @@ void IRCClient::sendRaw(std::string data) {
 
 std::string IRCClient::readRaw() {
 	std::string data = soc->recvData();
+	for(unsigned int i = 0; i < sizeof(data.c_str() -1); i++) {
+		std::cout << "[" << i << "]: " << data.c_str()[i] << std::endl;
+	}
+
+	if(data.empty())
+		return NULL;
 
 	unsigned int stop = data.find_first_of(" ");
 	if(stop != std::string::npos) {
-		if(data.substr(0, stop).compare("PING") == 0) {
+		// Handle PING command
+		if(data.substr(0, stop-1).compare("PING") == 0) {
 			pong();
 			return readRaw();
 		}
-		// Handle Server messages here
+		// Handle more Server messages here
 	}
 	return data;
 }
@@ -44,8 +50,8 @@ bool IRCClient::connect() {
 		std::cout << "IRCClient: Could not connect." << std::endl;
 		return false;
 	}
-	sendRaw("NICK " "<nick>");
-	sendRaw("USER " "<username> " "localhost localhost " "<real name>");
+	sendRaw("NICK " + CONFIG_IRC_NICK);
+	sendRaw("USER " + CONFIG_IRC_USER + "localhost localhost :" + CONFIG_IRC_USER);
 	return true;
 }
 

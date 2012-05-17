@@ -11,13 +11,13 @@
 #include <windows.h>
 #include <string>
 #include <sstream>
+#include "../Configs.h"
 
 #include "Socket.h"
 
 class IRCClient {
 public:
-	IRCClient();
-	IRCClient(std::string, int, std::string);
+	IRCClient(std::string, int);
 	virtual ~IRCClient();
 
 	void sendRaw(std::string);
