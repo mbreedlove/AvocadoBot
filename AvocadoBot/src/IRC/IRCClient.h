@@ -31,11 +31,13 @@ public:
 	void sendMessage(std::string, std::string);
 
 	void setServer(std::string);
+	void setServerName(std::string);
 	void setPort(int);
 	void setName(std::string);
 
 protected:
 	std::string server;
+	std::string server_name;
 	int port;
 	std::string name;
 

@@ -24,9 +24,6 @@ void IRCClient::sendRaw(std::string data) {
 
 std::string IRCClient::readRaw() {
 	std::string data = soc->recvData();
-	for(unsigned int i = 0; i < sizeof(data.c_str() -1); i++) {
-		std::cout << "[" << i << "]: " << data.c_str()[i] << std::endl;
-	}
 
 	if(data.empty())
 		return NULL;
@@ -34,7 +31,7 @@ std::string IRCClient::readRaw() {
 	unsigned int stop = data.find_first_of(" ");
 	if(stop != std::string::npos) {
 		// Handle PING command
-		if(data.substr(0, stop-1).compare("PING") == 0) {
+		if(data.substr(0, stop).compare("PING") == 0) {
 			pong();
 			return readRaw();
 		}
@@ -50,8 +47,8 @@ bool IRCClient::connect() {
 		std::cout << "IRCClient: Could not connect." << std::endl;
 		return false;
 	}
+	sendRaw("USER " + CONFIG_IRC_USER + " localhost localhost :" + CONFIG_IRC_USER);
 	sendRaw("NICK " + CONFIG_IRC_NICK);
-	sendRaw("USER " + CONFIG_IRC_USER + "localhost localhost :" + CONFIG_IRC_USER);
 	return true;
 }
 
@@ -69,15 +66,19 @@ void IRCClient::partChannel(std::string channel) {
 }
 
 void IRCClient::sendMessage(std::string target, std::string message) {
-	sendRaw("PRIVMSG " + target + " " + message);
+	sendRaw("PRIVMSG " + target + " :" + message);
 }
 
 void IRCClient::pong() {
-	sendRaw("PONG " + this->server);
+	sendRaw("PONG " + this->server_name);
 }
 
 void IRCClient::setServer(std::string server) {
 	this->server = server;
+}
+
+void IRCClient::setServerName(std::string server_name) {
+	this->server_name = server_name;
 }
 
 void IRCClient::setPort(int port) {

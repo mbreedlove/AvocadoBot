@@ -51,6 +51,7 @@ void Socket::close() {
  * \param[in] data String to send to server
  */
 void Socket::sendData(std::string data) {
+	std::cout << "-->" << data << std::endl;
     send(soc, data.c_str(), strlen(data.c_str()), 0);
 }
 
@@ -59,7 +60,8 @@ void Socket::sendData(std::string data) {
  * \return String containing data received
  */
 std::string Socket::recvData() {
-	char buf[256];
+	char buf[2048];
+	ZeroMemory(buf, sizeof(buf));
 
 	recv(soc, buf, sizeof(buf), 0);
 

@@ -11,9 +11,11 @@
 #include <windows.h>
 #include <process.h>
 #include "IRCClient.h"
+#include "../OSInfo.h"
 #include "../Configs.h"
 
-	void monitor(void*);
+void monitor(void*);
+void parseData(IRCClient*, std::string);
 
 class IRCManager {
 public:

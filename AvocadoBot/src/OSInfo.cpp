@@ -88,10 +88,10 @@ int OSInfo::getCPUCount() {
 std::string OSInfo::sysInfoStr() {
 	std::ostringstream ss;
 
-	ss << "Hostname : " << this->hostname << std::endl;
-	ss << "OS Ver   : " << this->OSVersionName << std::endl;
-	ss << "CPU Cores: " << this->cpuCount << std::endl;
-	ss << "CPU Arch : " << this->cpuArch << std::endl;
+	ss << "Hostname: " << this->hostname << " | ";
+	ss << "OS Ver: " << this->OSVersionName << " | ";
+	ss << "CPU Cores: " << this->cpuCount << " | ";
+	ss << "CPU Arch: " << this->cpuArch;
 
 	return ss.str();
 }
