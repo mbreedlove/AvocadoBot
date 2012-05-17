@@ -2,7 +2,7 @@
 #define OSINFO_H_
 
 #include <sstream>
-#include <Windows.h>
+#include <windows.h>
 
 class OSInfo {
 public:

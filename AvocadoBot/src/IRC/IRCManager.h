@@ -8,7 +8,7 @@
 #ifndef IRCMANAGER_H_
 #define IRCMANAGER_H_
 
-#include <Windows.h>
+#include <windows.h>
 #include <process.h>
 #include "IRCClient.h"
 #include "../Configs.h"

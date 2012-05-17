@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <string>
-#include "Windows.h"
+#include <windows.h>
 
 class Socket {
 protected:
