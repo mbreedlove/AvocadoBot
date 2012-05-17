@@ -11,14 +11,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\botnet.cpp" />
+    <ClCompile Include="src\AvocadoBot.cpp" />
     <ClCompile Include="src\IRC\IRCClient.cpp" />
     <ClCompile Include="src\IRC\IRCManager.cpp" />
     <ClCompile Include="src\IRC\Socket.cpp" />
     <ClCompile Include="src\OSInfo.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\botnet.h" />
+    <ClInclude Include="src\AvocadoBot.h" />
     <ClInclude Include="src\Configs.h" />
     <ClInclude Include="src\IRC\IRCClient.h" />
     <ClInclude Include="src\IRC\IRCManager.h" />

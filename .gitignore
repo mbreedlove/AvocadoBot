@@ -6,4 +6,4 @@ AvocadoBot.sdf
 AvocadoBot.suo
 AvocadoBot.opensdf
 AvocadoBot/AvocadoBot.vcxproj.user
-
+ipch/*

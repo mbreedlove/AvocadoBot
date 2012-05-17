@@ -1,5 +1,5 @@
-#ifndef BOTNET_H_
-#define BOTNET_H_
+#ifndef AVOCADOBOT_H_
+#define AVOCADOBOT_H_
 
 #include <iostream>
 #pragma comment(lib, "Ws2_32.lib")
@@ -8,4 +8,4 @@
 #include "OSInfo.h"
 #include "IRC/IRCManager.h"
 
-#endif /* BOTNET_H_*/
+#endif /* AVOCADOBOT_H_ */
