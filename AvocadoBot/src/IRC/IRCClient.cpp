@@ -8,8 +8,8 @@
 #include "IRCClient.h"
 
 IRCClient::IRCClient(std::string server, int port) {
-	this->server = server;
-	this->port = port;
+	this->IRC_ServAddr = server;
+	this->IRC_ServPort = port;
 
 	soc = new Socket();
 }
@@ -41,14 +41,15 @@ std::string IRCClient::readRaw() {
 }
 
 bool IRCClient::connect() {
-	std::cout << "Connecting to: " << this->server << ":" << this->port << std::endl;
-	bool connected = soc->open(this->server, this->port);
+	bool connected = soc->open(this->IRC_ServAddr, this->IRC_ServPort);
 	if(!connected) {
 		std::cout << "IRCClient: Could not connect." << std::endl;
 		return false;
 	}
-	sendRaw("USER " + CONFIG_IRC_USER + " localhost localhost :" + CONFIG_IRC_USER);
-	sendRaw("NICK " + CONFIG_IRC_NICK);
+	sendRaw("USER " + IRC_Username + " localhost localhost :" + IRC_Username);
+	sendRaw("NICK " + IRC_Nickname);
+
+	joinChannel(IRC_Channels[0]);
 	return true;
 }
 
@@ -58,11 +59,16 @@ void IRCClient::disconnect() {
 }
 
 void IRCClient::joinChannel(std::string channel) {
-	sendRaw("JOIN " + channel);
+	// Add channel to list
+	IRC_Channels.push_back(channel);
+	sendRaw("JOIN :" + channel);
 }
 
 void IRCClient::partChannel(std::string channel) {
-	sendRaw("PART " + channel);
+	// Remove channel from list
+	auto ind = std::find(IRC_Channels.begin(), IRC_Channels.end(), channel);
+	IRC_Channels.erase(IRC_Channels.begin() +2);
+	sendRaw("PART :" + channel);
 }
 
 void IRCClient::sendMessage(std::string target, std::string message) {
@@ -70,21 +76,21 @@ void IRCClient::sendMessage(std::string target, std::string message) {
 }
 
 void IRCClient::pong() {
-	sendRaw("PONG " + this->server_name);
+	sendRaw("PONG " + this->IRC_ServAddr);
 }
 
-void IRCClient::setServer(std::string server) {
-	this->server = server;
+// Setters
+
+void IRCClient::setNickname(std::string nickname) {
+	this->IRC_Nickname = nickname;
 }
 
-void IRCClient::setServerName(std::string server_name) {
-	this->server_name = server_name;
+void IRCClient::setServerName(std::string ServerName) {
+	this->IRC_ServName = ServerName;
 }
 
-void IRCClient::setPort(int port) {
-	this->port = port;
-}
+// Getters
 
-void IRCClient::setName(std::string name) {
-	this->name = name;
+std::vector<std::string> IRCClient::getIRCChannels() {
+	return this->IRC_Channels;
 }

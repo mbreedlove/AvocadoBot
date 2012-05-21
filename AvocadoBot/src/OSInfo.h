@@ -6,21 +6,13 @@
 
 class OSInfo {
 public:
-    std::string OSVersionName;
-    std::string hostname;
-    std::string cpuArch;
-    int cpuCount;
+	static std::string getOSVersionName();
+	static std::string getShortOSVersionName();
+	static std::string getHostname();
+	static std::string getCPUArch();
+	static int getCPUCount();
 
-	std::string sysInfoStr();
-    
-	OSInfo();
-	virtual ~OSInfo();
-
-protected:
-	std::string getOSVersionName();
-	std::string getHostname();
-	std::string getCPUArch();
-	int getCPUCount();
+	static std::string sysInfoStr();
 
 };
 

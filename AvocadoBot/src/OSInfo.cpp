@@ -1,18 +1,7 @@
 #include "OSInfo.h"
 
-OSInfo::OSInfo() {
-	this->OSVersionName = OSInfo::getOSVersionName();
-	this->hostname = OSInfo::getHostname();
-	this->cpuArch = OSInfo::getCPUArch();
-	this->cpuCount = OSInfo::getCPUCount();
-}
-
-OSInfo::~OSInfo() {
-
-}
-
 // Not entirely complete, matches most common found versions
-std::string OSInfo::getOSVersionName() {
+ std::string getOSVersionName() {
     OSVERSIONINFOEX osvi;
     ZeroMemory(&osvi, sizeof(OSVERSIONINFOEX));
     osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
@@ -52,7 +41,24 @@ std::string OSInfo::getOSVersionName() {
     return 0;
 }
 
-std::string OSInfo::getHostname() {
+ std::string getShortOSVersionName() {
+	std::string shortName = (new OSInfo)->getOSVersionName();
+	int index = shortName.find_first_of("Windows");
+	shortName.replace(index, index +7, "Win");
+
+	index = shortName.find_first_of("200");
+	shortName.replace(index, index +3, "'0");
+
+
+	while(index != std::string::npos) {
+		shortName.replace(index, 1, "" );
+		index = shortName.find(" ", index +1 );
+	}
+
+	return shortName;
+}
+
+ std::string getHostname() {
     char buf[32];
     WSADATA wsaData;
     WSAStartup(MAKEWORD(2,2), &wsaData);
@@ -61,7 +67,7 @@ std::string OSInfo::getHostname() {
     return std::string(buf);
 }
 
-std::string OSInfo::getCPUArch() {
+ std::string getCPUArch() {
     SYSTEM_INFO siSysInfo;
     
     // Copy the hardware information to the SYSTEM_INFO structure. 
@@ -78,20 +84,20 @@ std::string OSInfo::getCPUArch() {
     return 0;
 }
 
-int OSInfo::getCPUCount() {
+ int getCPUCount() {
     SYSTEM_INFO siSysInfo;
     GetSystemInfo(&siSysInfo);
 
     return siSysInfo.dwNumberOfProcessors;
 }
 
-std::string OSInfo::sysInfoStr() {
+ std::string sysInfoStr() {
 	std::ostringstream ss;
 
-	ss << "Hostname: " << this->hostname << " | ";
-	ss << "OS Ver: " << this->OSVersionName << " | ";
-	ss << "CPU Cores: " << this->cpuCount << " | ";
-	ss << "CPU Arch: " << this->cpuArch;
+	ss << "Hostname: " << OSInfo::getHostname() << " | ";
+	ss << "OS Ver: " << OSInfo::getOSVersionName() << " | ";
+	ss << "CPU Cores: " << OSInfo::getCPUCount() << " | ";
+	ss << "CPU Arch: " << OSInfo::getCPUArch();
 
 	return ss.str();
 }

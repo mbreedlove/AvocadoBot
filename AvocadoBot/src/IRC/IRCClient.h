@@ -9,9 +9,12 @@
 #define IRCCLIENT_H_
 
 #include <windows.h>
+#include <algorithm>
 #include <string>
 #include <sstream>
+#include <vector>
 #include "../Configs.h"
+#include "../OSInfo.h"
 
 #include "Socket.h"
 
@@ -30,16 +33,20 @@ public:
 	void partChannel(std::string);
 	void sendMessage(std::string, std::string);
 
-	void setServer(std::string);
+	//Setters
 	void setServerName(std::string);
-	void setPort(int);
-	void setName(std::string);
+	void setNickname(std::string);
+
+	//Getters
+	std::vector<std::string> getIRCChannels();
 
 protected:
-	std::string server;
-	std::string server_name;
-	int port;
-	std::string name;
+	std::string IRC_ServAddr;
+	std::string IRC_ServName;
+	int IRC_ServPort;
+	std::vector<std::string> IRC_Channels;
+	std::string IRC_Username;
+	std::string IRC_Nickname;
 
 	Socket* soc;
 
