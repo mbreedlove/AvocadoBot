@@ -41,8 +41,8 @@
     return 0;
 }
 
- std::string getShortOSVersionName() {
-	std::string shortName = (new OSInfo)->getOSVersionName();
+std::string getShortOSVersionName() {
+	std::string shortName = getOSVersionName();
 	int index = shortName.find_first_of("Windows");
 	shortName.replace(index, index +7, "Win");
 
@@ -94,10 +94,10 @@
  std::string sysInfoStr() {
 	std::ostringstream ss;
 
-	ss << "Hostname: " << OSInfo::getHostname() << " | ";
-	ss << "OS Ver: " << OSInfo::getOSVersionName() << " | ";
-	ss << "CPU Cores: " << OSInfo::getCPUCount() << " | ";
-	ss << "CPU Arch: " << OSInfo::getCPUArch();
+	ss << "Hostname: " << getHostname() << " | ";
+	ss << "OS Ver: " << getOSVersionName() << " | ";
+	ss << "CPU Cores: " << getCPUCount() << " | ";
+	ss << "CPU Arch: " << getCPUArch();
 
 	return ss.str();
 }

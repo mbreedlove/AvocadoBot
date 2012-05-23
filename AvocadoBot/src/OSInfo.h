@@ -4,16 +4,14 @@
 #include <sstream>
 #include <windows.h>
 
-class OSInfo {
-public:
-	static std::string getOSVersionName();
-	static std::string getShortOSVersionName();
-	static std::string getHostname();
-	static std::string getCPUArch();
-	static int getCPUCount();
+namespace OSInfo {
+	std::string getOSVersionName();
+	std::string getShortOSVersionName();
+	std::string getHostname();
+	std::string getCPUArch();
+	int getCPUCount();
 
-	static std::string sysInfoStr();
-
+	std::string sysInfoStr();
 };
 
 #endif /* OSINFO_H_*/
