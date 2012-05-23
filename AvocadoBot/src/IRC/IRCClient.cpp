@@ -66,7 +66,7 @@ void IRCClient::joinChannel(std::string channel) {
 
 void IRCClient::partChannel(std::string channel) {
 	// Remove channel from list
-	auto ind = std::find(IRC_Channels.begin(), IRC_Channels.end(), channel);
+	std::vector<std::string>::iterator ind = std::find(IRC_Channels.begin(), IRC_Channels.end(), channel);
 	IRC_Channels.erase(IRC_Channels.begin() +2);
 	sendRaw("PART :" + channel);
 }
