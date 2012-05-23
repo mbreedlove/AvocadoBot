@@ -25,8 +25,6 @@ public:
 	IRCManager();
 	virtual ~IRCManager();
 
-	std::string generateNick();
-
 	char getIRCCommandPrefix();
 
 	void start();

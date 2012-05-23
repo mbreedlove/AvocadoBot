@@ -10,8 +10,7 @@
 IRCManager::IRCManager() {
 	ircc = new IRCClient("127.0.0.1", 6667);
 	ircc->setNickname("Bot");
-	std::string l = IRCManager::generateNick();
-	//IRCManager::generateNick();
+	
 	ircc->joinChannel("#AvocadoBot");
 
 	connected = false;
@@ -20,15 +19,6 @@ IRCManager::IRCManager() {
 
 IRCManager::~IRCManager() {
 	delete ircc;
-}
-
-std::string generateNick() {
-	std::stringstream nick;
-
-	nick << "[" << OSInfo::getHostname() << "]";
-	nick << "[" << OSInfo::getShortOSVersionName() << "]";
-
-	return nick.str();
 }
 
 char IRCManager::getIRCCommandPrefix() { return IRC_CommandPrefix; }
