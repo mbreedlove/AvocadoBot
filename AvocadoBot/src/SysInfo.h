@@ -1,10 +1,10 @@
-#ifndef OSINFO_H_
-#define OSINFO_H_
+#ifndef SYSINFO_H_
+#define SYSINFO_H_
 
 #include <sstream>
 #include <windows.h>
 
-namespace OSInfo {
+namespace SysInfo {
 	std::string getOSVersionName();
 	std::string getShortOSVersionName();
 	std::string getHostname();
@@ -14,4 +14,4 @@ namespace OSInfo {
 	std::string sysInfoStr();
 }
 
-#endif /* OSINFO_H_*/
+#endif /* SYSINFO_H_*/
