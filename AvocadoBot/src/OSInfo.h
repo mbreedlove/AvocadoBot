@@ -12,6 +12,6 @@ namespace OSInfo {
 	int getCPUCount();
 
 	std::string sysInfoStr();
-};
+}
 
 #endif /* OSINFO_H_*/

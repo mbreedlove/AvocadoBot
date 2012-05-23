@@ -1,7 +1,7 @@
 #include "OSInfo.h"
 
 // Not entirely complete, matches most common found versions
- std::string getOSVersionName() {
+ std::string OSInfo::getOSVersionName() {
     OSVERSIONINFOEX osvi;
     ZeroMemory(&osvi, sizeof(OSVERSIONINFOEX));
     osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
@@ -41,7 +41,7 @@
     return 0;
 }
 
-std::string getShortOSVersionName() {
+std::string OSInfo::getShortOSVersionName() {
 	std::string shortName = getOSVersionName();
 	int index = shortName.find_first_of("Windows");
 	shortName.replace(index, index +7, "Win");
@@ -58,7 +58,7 @@ std::string getShortOSVersionName() {
 	return shortName;
 }
 
- std::string getHostname() {
+ std::string OSInfo::getHostname() {
     char buf[32];
     WSADATA wsaData;
     WSAStartup(MAKEWORD(2,2), &wsaData);
@@ -67,7 +67,7 @@ std::string getShortOSVersionName() {
     return std::string(buf);
 }
 
- std::string getCPUArch() {
+ std::string OSInfo::getCPUArch() {
     SYSTEM_INFO siSysInfo;
     
     // Copy the hardware information to the SYSTEM_INFO structure. 
@@ -84,14 +84,14 @@ std::string getShortOSVersionName() {
     return 0;
 }
 
- int getCPUCount() {
+ int OSInfo::getCPUCount() {
     SYSTEM_INFO siSysInfo;
     GetSystemInfo(&siSysInfo);
 
     return siSysInfo.dwNumberOfProcessors;
 }
 
- std::string sysInfoStr() {
+ std::string OSInfo::sysInfoStr() {
 	std::ostringstream ss;
 
 	ss << "Hostname: " << getHostname() << " | ";
