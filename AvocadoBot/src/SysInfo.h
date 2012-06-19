@@ -1,17 +1,20 @@
-#ifndef OSINFO_H_
-#define OSINFO_H_
+#ifndef SYSINFO_H_
+#define SYSINFO_H_
 
 #include <sstream>
 #include <windows.h>
 
-namespace OSInfo {
+namespace SysInfo {
+	// Operating System
 	std::string getOSVersionName();
 	std::string getShortOSVersionName();
 	std::string getHostname();
 	std::string getCPUArch();
 	int getCPUCount();
+	std::string SysInfoString();
 
-	std::string sysInfoStr();
-};
+	// IRC
+	std::string generateIRCNickname();
+}
 
-#endif /* OSINFO_H_*/
+#endif /* SYSINFO_H_*/

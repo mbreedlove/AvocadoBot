@@ -15,7 +15,7 @@
     <ClCompile Include="src\IRC\IRCClient.cpp" />
     <ClCompile Include="src\IRC\IRCManager.cpp" />
     <ClCompile Include="src\IRC\Socket.cpp" />
-    <ClCompile Include="src\OSInfo.cpp" />
+    <ClCompile Include="src\SysInfo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AvocadoBot.h" />
@@ -23,7 +23,7 @@
     <ClInclude Include="src\IRC\IRCClient.h" />
     <ClInclude Include="src\IRC\IRCManager.h" />
     <ClInclude Include="src\IRC\Socket.h" />
-    <ClInclude Include="src\OSInfo.h" />
+    <ClInclude Include="src\SysInfo.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{457C4C42-DD55-435F-89C8-6E13248F82FF}</ProjectGuid>

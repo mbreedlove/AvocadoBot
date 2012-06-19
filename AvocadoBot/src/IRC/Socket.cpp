@@ -26,7 +26,14 @@ Socket::~Socket() {
  */
 bool Socket::open(std::string server, int port) {
     myAddr.sin_family = AF_INET;
+
     myAddr.sin_addr.s_addr = inet_addr(server.c_str());
+	if(myAddr.sin_addr.S_un.S_addr == INADDR_NONE) {
+		hostent* h = gethostbyname(server.c_str());
+
+		myAddr.sin_addr.S_un.S_addr = *((unsigned long*) h->h_addr);
+	}
+
     myAddr.sin_port = htons(port);
     
     if(connect(soc, (SOCKADDR*) &myAddr, sizeof(myAddr)) == SOCKET_ERROR ) {

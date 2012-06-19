@@ -2,6 +2,7 @@
 #define AVOCADOBOT_H_
 
 #pragma comment(lib, "Ws2_32.lib")
+
 #include <windows.h>
 #include <iostream>
 #include <string>
@@ -9,7 +10,7 @@
 
 // Botnet specific includes
 #include "Configs.h"
-#include "OSInfo.h"
+#include "SysInfo.h"
 
 #include "IRC/IRCClient.h"
 #include "IRC/IRCManager.h"

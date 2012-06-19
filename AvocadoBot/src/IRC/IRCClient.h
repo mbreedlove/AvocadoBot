@@ -14,7 +14,7 @@
 #include <sstream>
 #include <vector>
 #include "../Configs.h"
-#include "../OSInfo.h"
+#include "../SysInfo.h"
 
 #include "Socket.h"
 
