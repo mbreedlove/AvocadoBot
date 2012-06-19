@@ -115,7 +115,7 @@ std::string SysInfo::getShortOSVersionName() {
  std::string SysInfo::generateIRCNickname() {
 	 std::ostringstream ss;
 
-	 ss << "[" << getHostname() << "]";
+	 ss << "[" << getHostname().substr(0, 7) << "]";
 	 ss << "[" << getShortOSVersionName() << "]";
 
 	 return ss.str();

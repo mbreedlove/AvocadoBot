@@ -19,7 +19,9 @@ IRCManager::~IRCManager() {
 	delete ircc;
 }
 
-char IRCManager::getIRCCommandPrefix() { return IRC_CommandPrefix; }
+char IRCManager::getIRCCommandPrefix() { 
+	return IRC_CommandPrefix;
+}
 
 bool IRCManager::isConnected() {
 	return connected;
@@ -94,21 +96,29 @@ void parseData(IRCClient* ircc, std::string data, char IRC_CommandPrefix) {
 		return;
 
 
-	std::string message;
+	std::string botCommand;
+	std::string botArgs;
 
 	stop = params.find_first_of(":");
-	message = params.substr(stop +1, params.size() -1);
-
+	botCommand = params.substr(stop +1, params.size() -1);
 	// If Bot command was recieved
-	if(message.at(0) == IRC_CommandPrefix) {
+	if(botCommand.at(0) == IRC_CommandPrefix) {
 		// Remove special char
-		message = message.substr(1, message.size() -1);
+		botCommand = botCommand.substr(1, botCommand.size() -1);
 
 		// Remove CR/LF
-		message = message.substr(0, message.size() -2);
-	
+		botCommand = botCommand.substr(0, botCommand.size() -2);
+
+		// Split into message and args
+		stop = botCommand.find_first_of(" ");
+		if(stop != -1) {
+			botArgs = botCommand.substr(stop, botCommand.size());
+			botCommand = botCommand.substr(0, stop);
+		}
+		
 		// Execute command and save result
-		std::string result;// = executeCommand(message.substr(0, message.find_first_of(" ")), message.substr(seperator, message.size() -1));
+		std::string result;
+		result = executeCommand(botCommand, botArgs);
 
 		// If there was a result message, send it to the server
 		if(!result.empty())
