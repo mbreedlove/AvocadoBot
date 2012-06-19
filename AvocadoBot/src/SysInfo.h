@@ -5,13 +5,16 @@
 #include <windows.h>
 
 namespace SysInfo {
+	// Operating System
 	std::string getOSVersionName();
 	std::string getShortOSVersionName();
 	std::string getHostname();
 	std::string getCPUArch();
 	int getCPUCount();
+	std::string SysInfoString();
 
-	std::string sysInfoStr();
+	// IRC
+	std::string generateIRCNickname();
 }
 
 #endif /* SYSINFO_H_*/

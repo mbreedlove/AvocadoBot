@@ -10,6 +10,8 @@
 IRCClient::IRCClient(std::string server, int port) {
 	this->IRC_ServAddr = server;
 	this->IRC_ServPort = port;
+	this->IRC_Username = SysInfo::getHostname();
+	this->IRC_Nickname = SysInfo::generateIRCNickname();
 
 	soc = new Socket();
 }
@@ -49,7 +51,6 @@ bool IRCClient::connect() {
 	sendRaw("USER " + IRC_Username + " localhost localhost :" + IRC_Username);
 	sendRaw("NICK " + IRC_Nickname);
 
-	joinChannel(IRC_Channels[0]);
 	return true;
 }
 

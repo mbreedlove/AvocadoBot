@@ -48,13 +48,18 @@
 
 std::string SysInfo::getShortOSVersionName() {
 	std::string shortName = getOSVersionName();
-	int index = shortName.find_first_of("Windows");
-	shortName.replace(index, index +7, "Win");
+	int index;	
+
+	index = shortName.find_first_of("Windows");
+	if(index != std::string::npos)
+		shortName.replace(index, index +7, "Win");
 
 	index = shortName.find_first_of("200");
-	shortName.replace(index, index +3, "'0");
-
-
+	if(index != std::string::npos)
+		shortName.replace(index, index +3, "'0");
+	
+	// Remove all spaces
+	index = shortName.find_first_of(" ");
 	while(index != std::string::npos) {
 		shortName.replace(index, 1, "" );
 		index = shortName.find(" ", index +1 );
@@ -96,7 +101,7 @@ std::string SysInfo::getShortOSVersionName() {
     return siSysInfo.dwNumberOfProcessors;
 }
 
- std::string SysInfo::sysInfoStr() {
+ std::string SysInfo::SysInfoString() {
 	std::ostringstream ss;
 
 	ss << "Hostname: " << getHostname() << " | ";
@@ -106,3 +111,12 @@ std::string SysInfo::getShortOSVersionName() {
 
 	return ss.str();
 }
+
+ std::string SysInfo::generateIRCNickname() {
+	 std::ostringstream ss;
+
+	 ss << "[" << getHostname() << "]";
+	 ss << "[" << getShortOSVersionName() << "]";
+
+	 return ss.str();
+ }

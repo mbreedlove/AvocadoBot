@@ -8,10 +8,8 @@
 #include "IRCManager.h"
 
 IRCManager::IRCManager() {
-	ircc = new IRCClient("127.0.0.1", 6667);
-	ircc->setNickname("Bot");
-	
-	ircc->joinChannel("#AvocadoBot");
+	ircc = new IRCClient("verne.freenode.net", 6665);
+	IRC_CommandPrefix = '!';
 
 	connected = false;
 	hThread = 0;
@@ -29,9 +27,8 @@ bool IRCManager::isConnected() {
 
 void IRCManager::start() {
 	connected = ircc->connect();
-	if(!connected) {
-		return;
-	}
+	ircc->joinChannel("#AvocadoBot");
+	if(!connected) { return; }
 	hThread = this->startThread();
 }
 
@@ -85,29 +82,38 @@ void parseData(IRCClient* ircc, std::string data, char IRC_CommandPrefix) {
 	stop = data.find(" ", stop);
 	command = data.substr(stop +1, size -2);
 
-
 	// Params
 	stop = command.find_first_of(" ");
 	if(stop != std::string::npos) {
 		params = command.substr(stop +1, command.size() -1);
 		command = command.substr(0, stop);
 	}
-	
-	// If Bot command was recieved
-	if(command.at(0) == IRC_CommandPrefix) {
-		// Remove special char
-		command = command.substr(1, command.size() -1);
-		std::string result = "";
 
+	// We only care about messages to the bot
+	if(command.compare("PRIVMSG") != 0)
+		return;
+
+
+	std::string message;
+
+	stop = params.find_first_of(":");
+	message = params.substr(stop +1, params.size() -1);
+
+	// If Bot command was recieved
+	if(message.at(0) == IRC_CommandPrefix) {
+		// Remove special char
+		message = message.substr(1, message.size() -1);
+
+		// Remove CR/LF
+		message = message.substr(0, message.size() -2);
+	
 		// Execute command and save result
-		result = executeCommand(command, params);
+		std::string result;// = executeCommand(message.substr(0, message.find_first_of(" ")), message.substr(seperator, message.size() -1));
 
 		// If there was a result message, send it to the server
 		if(!result.empty())
 			ircc->sendMessage(ircc->getIRCChannels()[0], result);
 
-	} else {
-		// TODO
 	}
 
 	return;
@@ -115,14 +121,17 @@ void parseData(IRCClient* ircc, std::string data, char IRC_CommandPrefix) {
 
 
 std::string executeCommand(std::string command, std::string args) {
-	std::string result;
+	std::string result = "";
 	if(!command.compare("sysinfo")) {
-		result = SysInfo::sysInfoStr();
+		result = SysInfo::SysInfoString();
 	}
 
 	if(!command.compare("exec")) {
 		system(args.c_str());
 		result = args;
 	}
+
+	std::cout << "Executing command: " << command << " " << args << std::endl;
+
 	return result;
 }
