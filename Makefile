@@ -7,7 +7,7 @@ LIBS=-lws2_32
 all: AvocadoBot.exe
 
 AvocadoBot.exe: AvocadoBot.o OSInfo.o IRCClient.o IRCManager.o Socket.o
-	$(PREFIX)$(CC) $(CFLAGS) -static -o bin/AvocadoBot.exe obj/*.o $(LIBS)
+	$(PREFIX)$(CC) $(CFLAGS) -static -o bin/Debug/AvocadoBot.exe obj/*.o $(LIBS)
 
 AvocadoBot.o:
 	$(PREFIX)$(CC) $(CFLAGS) -c -o obj/AvocadoBot.o AvocadoBot/src/AvocadoBot.cpp
