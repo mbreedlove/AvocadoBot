@@ -112,7 +112,7 @@ void parseData(IRCClient* ircc, std::string data, char IRC_CommandPrefix) {
 		// Split into message and args
 		stop = botCommand.find_first_of(" ");
 		if(stop != -1) {
-			botArgs = botCommand.substr(stop, botCommand.size());
+			botArgs = botCommand.substr(stop + 1, botCommand.size());
 			botCommand = botCommand.substr(0, stop);
 		}
 		
