@@ -8,7 +8,7 @@
 #include "IRCManager.h"
 
 IRCManager::IRCManager() {
-	ircc = new IRCClient("verne.freenode.net", 6665);
+	ircc = new IRCClient(IRC_SERVER, IRC_PORT);
 	IRC_CommandPrefix = '!';
 
 	connected = false;
@@ -29,7 +29,7 @@ bool IRCManager::isConnected() {
 
 void IRCManager::start() {
 	connected = ircc->connect();
-	ircc->joinChannel("#AvocadoBot");
+	ircc->joinChannel(IRC_CHANNEL);
 	if(!connected) { return; }
 	hThread = this->startThread();
 }
