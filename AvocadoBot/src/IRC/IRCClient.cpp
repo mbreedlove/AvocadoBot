@@ -44,14 +44,43 @@ std::string IRCClient::readRaw() {
 
 bool IRCClient::connect() {
 	bool connected = soc->open(this->IRC_ServAddr, this->IRC_ServPort);
-	if(!connected) {
-		std::cout << "IRCClient: Could not connect." << std::endl;
-		return false;
+	
+	std::string data;
+	int count = 0;
+	// Same loop as in IRCManager.monitorIRC, wait for second "NOTICE Auth"
+	while(count < 2) {
+	  	if(!connected) {
+		      std::cout << "IRCClient: Could not connect." << std::endl;
+		      return false;
+		}
+		data = readRaw();
+
+		std::cout << data;
+		fflush(stdout);
+
+		if(data.find("NOTICE") != std::string::npos)
+		  count++;
 	}
-	sendRaw("USER " + IRC_Username + " localhost localhost :" + IRC_Username);
+	
+	// Hostname resolution done. Safe to identify.
+	sendRaw("USER " + IRC_Username + " " + SysInfo::getHostname() + " localhost :" + IRC_Username);
+
+	
+	
 	sendRaw("NICK " + IRC_Nickname);
 
-	return true;
+	// Wait for Welcome "NOTICE"
+	while(true) {
+		data = readRaw();
+
+		std::cout << data;
+		fflush(stdout);
+
+		if(data.find("NOTICE") != std::string::npos)
+		  return true;
+	}
+	
+	return false;
 }
 
 void IRCClient::disconnect() {

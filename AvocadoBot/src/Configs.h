@@ -8,8 +8,12 @@
 #ifndef CONFIGS_H_
 #define CONFIGS_H_
 
-#define IRC_SERVER  "64.32.24.176"
-#define IRC_PORT    6665
+#define MY_IRC_SERVER  "162.243.95.122"
+#define MY_IRC_PORT    6667
+
+#define IRC_SERVER "208.80.155.68"
+#define IRC_PORT 6665
+
 #define IRC_CHANNEL "#AvocadoBot"
 
 #endif /* CONFIGS_H_ */

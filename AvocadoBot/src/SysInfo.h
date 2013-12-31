@@ -4,6 +4,8 @@
 #define WIN32_LEAN_AND_MEAN
 
 #include <sstream>
+#include <cstdlib>
+#include <time.h>
 #include <winsock2.h>
 #include <windows.h>
 

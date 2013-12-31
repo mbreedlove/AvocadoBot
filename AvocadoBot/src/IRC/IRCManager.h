@@ -8,9 +8,11 @@
 #ifndef IRCMANAGER_H_
 #define IRCMANAGER_H_
 
-#include <vector>
+#define WIN32_LEAN_AND_MEAN
 
+#include <vector>
 #include <process.h>
+#include <windows.h>
 #include "IRCClient.h"
 #include "../SysInfo.h"
 #include "../Configs.h"

