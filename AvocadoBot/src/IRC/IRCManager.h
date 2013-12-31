@@ -10,7 +10,6 @@
 
 #include <vector>
 
-#include <windows.h>
 #include <process.h>
 #include "IRCClient.h"
 #include "../SysInfo.h"

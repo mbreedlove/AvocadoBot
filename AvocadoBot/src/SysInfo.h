@@ -1,7 +1,10 @@
 #ifndef SYSINFO_H_
 #define SYSINFO_H_
 
+#define WIN32_LEAN_AND_MEAN
+
 #include <sstream>
+#include <WinSock2.h>
 #include <windows.h>
 
 namespace SysInfo {

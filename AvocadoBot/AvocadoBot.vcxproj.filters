@@ -50,10 +50,10 @@
     <ClInclude Include="src\IRC\Socket.h">
       <Filter>Header Files\IRC</Filter>
     </ClInclude>
-    <ClInclude Include="src\AvocadoBot.h">
+    <ClInclude Include="src\SysInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\SysInfo.h">
+    <ClInclude Include="src\AvocadoBot.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

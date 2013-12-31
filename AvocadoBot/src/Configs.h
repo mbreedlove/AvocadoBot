@@ -8,7 +8,7 @@
 #ifndef CONFIGS_H_
 #define CONFIGS_H_
 
-#define IRC_SERVER  "verne.freenode.net"
+#define IRC_SERVER  "64.32.24.176"
 #define IRC_PORT    6665
 #define IRC_CHANNEL "#AvocadoBot"
 

@@ -25,14 +25,30 @@ Socket::~Socket() {
  * \param[in] port   The port to connect to
  */
 bool Socket::open(std::string server, int port) {
+
     myAddr.sin_family = AF_INET;
 
+	// Try and parse as IP
     myAddr.sin_addr.s_addr = inet_addr(server.c_str());
-	if(myAddr.sin_addr.S_un.S_addr == INADDR_NONE) {
-		hostent* h = gethostbyname(server.c_str());
+/*
+ * Parsing hostname is broken
+ * 
+	if(myAddr.sin_addr.s_addr == INADDR_NONE) {
+		struct addrinfo *result = NULL;
+		struct addrinfo hints;
 
-		myAddr.sin_addr.S_un.S_addr = *((unsigned long*) h->h_addr);
+		// Setup the hints address info structure
+		// which is passed to the getaddrinfo() function
+		ZeroMemory( &hints, sizeof(hints) );
+		hints.ai_family = AF_UNSPEC;
+		hints.ai_socktype = SOCK_STREAM;
+		hints.ai_protocol = IPPROTO_TCP;
+		
+		int res = getaddrinfo(server.c_str(), NULL , &hints, &result);
+	
+		myAddr.sin_addr.s_addr = (unsigned long) result->ai_addr;
 	}
+*/
 
     myAddr.sin_port = htons(port);
     
