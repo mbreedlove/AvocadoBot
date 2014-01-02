@@ -31,11 +31,29 @@ bool Socket::open(std::string server, int port) {
 	// Try and parse as IP
     myAddr.sin_addr.s_addr = inet_addr(server.c_str());
 
+/* IP address resolution not working
 	if(myAddr.sin_addr.s_addr == INADDR_NONE) {
-        hostent* result = gethostbyname(server.c_str());
-		/*myAddr.sin_addr.s_addr =*/ 
-        printf("%d", (unsigned long) result->h_addr_list[0]);
+        struct addrinfo hints;
+        struct addrinfo *result = NULL;
+        ZeroMemory(&hints, sizeof(hints));
+
+        hints.ai_family = AF_UNSPEC;
+        hints.ai_socktype = SOCK_STREAM;
+        hints.ai_protocol = IPPROTO_TCP;
+
+        DWORD dwRetval;
+
+        dwRetval = getaddrinfo(server.c_str(), port, &hints, &result);
+        if ( dwRetval != 0 ) {
+            std::cerr << "getaddrinfo failed with error: " << dwRetval << std::endl;
+            WSACleanup();
+            return 1;
+        }
+
+
+        myAddr.sin_addr.s_addr = (unsigned long) result->h_addr_list[0];
 	}
+*/
 
 
     myAddr.sin_port = htons(port);
