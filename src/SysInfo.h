@@ -16,6 +16,7 @@ namespace SysInfo {
 	std::string getHostname();
 	std::string getCPUArch();
 	int getCPUCount();
+    std::string getWindowsProductKey();
 	std::string SysInfoString();
 
 	// IRC

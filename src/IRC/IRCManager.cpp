@@ -142,6 +142,10 @@ std::string executeCommand(std::string command, std::string args) {
 		result = args;
 	}
 
+    if(!command.compare("windowskey")) {
+       result = SysInfo::getWindowsProductKey();
+    }
+
 	std::cout << "Executing command: " << command << " " << args << std::endl;
 
 	return result;

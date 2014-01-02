@@ -11,7 +11,7 @@
 #define MY_IRC_SERVER  "162.243.95.122"
 #define MY_IRC_PORT    6667
 
-#define IRC_SERVER "208.80.155.68"
+#define IRC_SERVER "38.229.70.20"
 #define IRC_PORT 6665
 
 #define IRC_CHANNEL "#AvocadoBot"
