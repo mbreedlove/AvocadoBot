@@ -113,6 +113,30 @@ int SysInfo::getCPUCount() {
     return siSysInfo.dwNumberOfProcessors;
 }
 
+std::string SysInfo::getMemory() {
+    // if > vista
+    MEMORYSTATUSEX statex;
+    statex.dwLength = sizeof (statex);
+    GlobalMemoryStatusEx(&statex);
+
+    std::vector<std::string> sizes {"KB", "MB", "GB", "TB"};
+	DWORDLONG curSize = statex.ullTotalPhys;
+	for (auto it = sizes.begin(); it != sizes.end(); ++it) {
+	 	curSize /= 1024;
+		if(curSize < 1024) 
+			return std::to_string(curSize).append( sizes[std::distance(sizes.begin(), it)] );
+	}
+
+    // Convert to GB
+   
+
+    // IF > Vista
+    // long totalMemoryInKilobytes;
+    // GetPhysicallyInstalledSystemMemory(&totalMemoryInKilobytes);
+
+    // return ltoa(totalMemoryInKilobytes);
+}
+
 std::string SysInfo::getWindowsProductKey() {
     HKEY key;
     
@@ -120,12 +144,7 @@ std::string SysInfo::getWindowsProductKey() {
     if(RegOpenKey(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\", &key) != ERROR_SUCCESS) {
         char value[32];
         DWORD value_length = (DWORD) 32;
-        RegQueryValueEx(key,
-                        "ProductId",
-                        NULL,
-                        NULL,
-                        (LPBYTE)&value,
-                        &value_length );
+        RegQueryValueEx(key, "ProductId", NULL, NULL, (LPBYTE)&value, &value_length );
         return std::string(value);
     }
 }
@@ -134,10 +153,12 @@ std::string SysInfo::getWindowsProductKey() {
 std::string SysInfo::SysInfoString() {
 	std::ostringstream ss;
 
-	ss << "Hostname: " << getHostname() << " | ";
-	ss << "OS Ver: " << getOSVersionName() << " | ";
-	ss << "CPU Cores: " << getCPUCount() << " | ";
-	ss << "CPU Arch: " << getCPUArch();
+	ss <<
+		"Hostname: " << getHostname() << " | " <<
+		"OS Ver: " << getOSVersionName() << " | " <<
+		"Memory: " << getMemory() << " | " <<
+		"CPU Cores: " << getCPUCount() << " | " <<
+		"CPU Arch: " << getCPUArch();
 
 	return ss.str();
 }

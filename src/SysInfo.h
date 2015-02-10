@@ -5,6 +5,8 @@
 
 #include <sstream>
 #include <cstdlib>
+#include <vector>
+#include <iostream>
 #include <time.h>
 #include <winsock2.h>
 #include <windows.h>
@@ -16,6 +18,7 @@ namespace SysInfo {
 	std::string getHostname();
 	std::string getCPUArch();
 	int getCPUCount();
+	std::string getMemory();
     std::string getWindowsProductKey();
 	std::string SysInfoString();
 
