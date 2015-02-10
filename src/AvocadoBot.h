@@ -8,6 +8,6 @@
 // Botnet specific includes
 #include "Configs.h"
 
-#include "IRC/IRCManager.h"
+#include "net/irc/IRCManager.h"
 
 #endif /* AVOCADOBOT_H_ */

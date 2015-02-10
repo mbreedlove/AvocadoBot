@@ -120,7 +120,12 @@ std::string SysInfo::getWindowsProductKey() {
     if(RegOpenKey(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\", &key) != ERROR_SUCCESS) {
         char value[32];
         DWORD value_length = (DWORD) 32;
-        RegQueryValueEx(key, "ProductId", NULL, REG_SZ, (LPBYTE)&value, &value_length);
+        RegQueryValueEx(key,
+                        "ProductId",
+                        NULL,
+                        NULL,
+                        (LPBYTE)&value,
+                        &value_length );
         return std::string(value);
     }
 }

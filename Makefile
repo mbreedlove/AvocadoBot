@@ -1,32 +1,18 @@
-PREFIX=i686-w64-mingw32-
-CC=g++
-CFLAGS=-O2
-LIBS=-lws2_32
+CPP_FILES := $(shell find src/ -type f -name '*.cpp')
+OBJ_FILES := $(patsubst src/%.cpp, obj/%.o, $(CPP_FILES))
+CC := i686-w64-mingw32-g++
+CC_FLAGS := -std=c++11 -g
+LD_FLAGS := -static
+LIBS := -lws2_32
 
-RELEASE=Release
+AvocadoBot.exe: $(OBJ_FILES)
+	$(CC) $(LD_FLAGS) -o bin/$@ $(addprefix obj/,$(notdir $^)) $(LIBS)
 
-all: dir AvocadoBot.exe
-
-AvocadoBot.exe: AvocadoBot.o SysInfo.o IRCClient.o IRCManager.o Socket.o
-	$(PREFIX)$(CC) $(CFLAGS) -static -o bin/$(RELEASE)/AvocadoBot.exe obj/*.o $(LIBS)
-
-AvocadoBot.o:
-	$(PREFIX)$(CC) $(CFLAGS) -c -o obj/AvocadoBot.o src/AvocadoBot.cpp
-	
-SysInfo.o:
-	$(PREFIX)$(CC) $(CFLAGS) -c -o obj/SysInfo.o src/SysInfo.cpp
-
-IRCClient.o:
-	$(PREFIX)$(CC) $(CFLAGS) -c -o obj/IRCClient.o src/IRC/IRCClient.cpp
-
-IRCManager.o:
-	$(PREFIX)$(CC) $(CFLAGS) -c -o obj/IRCManager.o src/IRC/IRCManager.cpp
-
-Socket.o:
-	$(PREFIX)$(CC) $(CFLAGS) -c -o obj/Socket.o src/IRC/Socket.cpp
+obj/%.o: src/%.cpp
+	$(CC) $(CC_FLAGS) -c -o obj/$(notdir $@) $<
 
 clean:
 	rm -rf obj/ bin/
 
-dir: 
-	mkdir -p obj/ bin/$(RELEASE)
+dirs:
+	mkdir -p obj/ bin/

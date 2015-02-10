@@ -14,8 +14,8 @@
 #include <process.h>
 #include <windows.h>
 #include "IRCClient.h"
-#include "../SysInfo.h"
-#include "../Configs.h"
+#include "../../SysInfo.h"
+#include "../../Configs.h"
 
 void monitorIRC(void*);
 void parseData(IRCClient*, std::string, char);

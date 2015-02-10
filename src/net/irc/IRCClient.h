@@ -15,10 +15,10 @@
 #include <string>
 #include <sstream>
 #include <vector>
-#include "../Configs.h"
-#include "../SysInfo.h"
+#include "../../Configs.h"
+#include "../../SysInfo.h"
 
-#include "Socket.h"
+#include "../socket/Socket.h"
 
 class IRCClient {
 public:

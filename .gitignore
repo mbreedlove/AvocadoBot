@@ -1,10 +1,2 @@
-bin/*
-obj/*
-AvocadoBot/int*
-
-# Visual Studio
-AvocadoBot.sdf
-AvocadoBot.suo
-AvocadoBot.opensdf
-AvocadoBot/AvocadoBot.vcxproj.user
-ipch/*
+obj
+bin
